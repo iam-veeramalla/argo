@@ -1,17 +1,16 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: sample-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+  name: test-argo-flow
 spec:
   rules:
-  - http:
+  - host: "foo.bar.com"
+    http:
       paths:
-      - path: /testpath
-        pathType: Prefix
+      - pathType: Prefix
+        path: "/bar"
         backend:
           service:
-            name: guestbook-ui
+            name: test
             port:
               number: 80
