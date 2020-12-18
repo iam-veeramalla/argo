@@ -8,9 +8,19 @@ spec:
     http:
       paths:
       - pathType: Prefix
-        path: "/bar"
+        path: "/foo"
         backend:
           service:
             name: guestbook-ui
             port:
               number: 80
+  - host: "tar.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/tar"
+        backend:
+          service:
+            name: guestbook-ui
+            port:
+              number: 80         
