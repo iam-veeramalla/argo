@@ -11,6 +11,6 @@ spec:
         path: "/bar"
         backend:
           service:
-            name: test
+            name: guestbook-ui
             port:
               number: 80
