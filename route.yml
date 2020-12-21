@@ -6,6 +6,7 @@ metadata:
   name: test-argo-route
   annotations:
 spec:
+  tls: edge
   host: bar.com
   path: "/bar"
   port:
