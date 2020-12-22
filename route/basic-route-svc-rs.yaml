@@ -6,6 +6,7 @@ spec:
   host: example.local
   wildcardPolicy: None
   to:
+    kind: Service
     name: example
 ---
 kind: Service
