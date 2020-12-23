@@ -9,6 +9,97 @@ spec:
     kind: Service
     name: example
 ---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: edge-example
+spec:
+  tls:
+    termination: edge
+  host: edge.example.com
+  wildcardPolicy: None
+  to:
+    kind: Service
+    name: example
+---
+apiVersion: v1
+kind: Route
+metadata:
+  name: edge-certs-example
+spec:
+  host: svc1-edge-route.local
+  path: "/test"
+  port:
+    targetPort: 443
+  tls:
+    certificate: |
+      -----BEGIN CERTIFICATE-----
+      -----END CERTIFICATE-----
+    key: |
+      -----BEGIN PRIVATE KEY-----
+      -----END PRIVATE KEY-----
+    termination: edge
+    insecureEdgeTerminationPolicy: Allow
+  to:
+    kind: Service
+    name: example
+---
+apiVersion: v1
+kind: Route
+metadata:
+  name: ab-deployment
+  annotations:
+    # Specify a supported BIG-IP load balancing mode
+    virtual-server.f5.com/balance: least-connections-node
+    virtual-server.f5.com/health: |
+      [
+        {
+          "path": "mysite.f5demo.com/",
+          "send": "HTTP GET /",
+          "interval": 5,
+          "timeout": 10
+        }
+      ]
+spec:
+  host: mysite.f5demo.com
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: example
+    weight: 20
+  alternateBackends:
+  - kind: example1
+    weight: 10
+---
+apiVersion: v1
+kind: Route
+metadata:
+  name: reen-test
+  annotations:
+    # Validate the server-side SSL connection.
+    virtual-server.f5.com/secure-serverssl: "true"
+spec:
+  host: svc1-reencrypt-route.local
+  path: "/test"
+  port:
+    targetPort: 443
+  tls:
+    certificate: |
+      -----BEGIN CERTIFICATE-----
+      -----END CERTIFICATE-----
+    key: |
+      -----BEGIN PRIVATE KEY-----
+      -----END PRIVATE KEY-----
+    destinationCACertificate: |
+      -----BEGIN CERTIFICATE-----
+      -----END CERTIFICATE-----
+    termination: reencrypt
+  to:
+    kind: Service
+    name: example
+    weight: 100
+---
 kind: Service
 apiVersion: v1
 metadata:
