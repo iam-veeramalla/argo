@@ -70,6 +70,7 @@ spec:
     weight: 20
   alternateBackends:
   - kind: example1
+    name: example
     weight: 10
 ---
 apiVersion: route.openshift.io/v1
