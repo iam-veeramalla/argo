@@ -14,15 +14,6 @@ spec:
   port:
     targetPort: 443
   tls:
-    certificate: |
-      -----BEGIN CERTIFICATE-----
-      -----END CERTIFICATE-----
-    key: |
-      -----BEGIN PRIVATE KEY-----
-      -----END PRIVATE KEY-----
-    destinationCACertificate: |
-      -----BEGIN CERTIFICATE-----
-      -----END CERTIFICATE-----
     termination: reencrypt
   to:
     kind: Service
